@@ -1,0 +1,20 @@
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+
+  data:
+    mongodb:
+      host: 127.0.0.1
+      port: 27017
+      database: "crawler_sina_tousu_company"
+  kafka:
+    bootstrap-servers: 127.0.0.1:9093
+    producer:
+      retries: 0
+      acks: 1
+      batch-size: 16384
+
+server:
+  port: 6048
