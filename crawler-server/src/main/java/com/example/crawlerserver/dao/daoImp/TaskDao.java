@@ -1,5 +1,7 @@
 package com.example.crawlerserver.dao.daoImp;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.crawlerserver.dao.ITaskDao;
 import com.example.crawlerserver.entity.Task;
 import lombok.extern.slf4j.Slf4j;
@@ -42,5 +44,33 @@ public class TaskDao implements ITaskDao {
             }
         }*/
         return task;
+    }
+
+    @Override
+    public void pushTask(JSONObject task) {
+        String policyId = task.getString("policyId");
+        String taskType = task.getString("taskType");
+        String redisKey = policyId + ":" + taskType;
+        redisTemplate.opsForList().leftPush(redisKey, task.toJSONString());
+    }
+
+    @Override
+    public JSONObject getTaskParam(String policyId) {
+        String redisListKey = policyId + ":List";
+        String redisDetailKey = policyId + ":Detail";
+        Long detailTaskSize = redisTemplate.opsForList().size(redisDetailKey);
+        if (detailTaskSize != null && detailTaskSize > 0) {
+            String jsonStr = (String) redisTemplate.opsForList().leftPop(redisDetailKey);
+            JSONObject task = JSON.parseObject(jsonStr);
+            return task;
+        } else {
+            Long listTaskSize = redisTemplate.opsForList().size(redisListKey);
+            if (listTaskSize != null && listTaskSize > 0) {
+                String jsonStr = (String) redisTemplate.opsForList().leftPop(redisListKey);
+                JSONObject task = JSON.parseObject(jsonStr);
+                return task;
+            }
+        }
+        return null;
     }
 }
