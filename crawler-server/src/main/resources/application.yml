@@ -8,7 +8,7 @@ spring:
     mongodb:
       host: 127.0.0.1
       port: 27017
-      database: "crawler_sina_tousu_company"
+      database: "crawler_platform"
   kafka:
     bootstrap-servers: 127.0.0.1:9093
     producer:
