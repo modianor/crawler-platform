@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.crawlerserver.dao.IPolicyDao">
+    <resultMap id="BaseResultMap" type="com.example.crawlerserver.entity.Policy">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="policyId" jdbcType="VARCHAR" property="policyId"/>
+        <result column="policyName" jdbcType="VARCHAR" property="policyName"/>
+        <result column="policyState" jdbcType="TINYINT" property="policyState"/>
+        <result column="clusterId" jdbcType="VARCHAR" property="clusterId"/>
+        <result column="deduplicationServerId" jdbcType="VARCHAR" property="deduplicationServerId"/>
+        <result column="taskTypes" jdbcType="VARCHAR" property="taskTypes"/>
+        <result column="periodTime" jdbcType="INTEGER" property="periodTime"/>
+        <result column="listExpress" jdbcType="VARCHAR" property="listExpress"/>
+        <result column="dataExpress" jdbcType="VARCHAR" property="dataExpress"/>
+        <result column="retryTimes" jdbcType="INTEGER" property="retryTimes"/>
+        <result column="proxy" jdbcType="TINYINT" property="proxy"/>
+        <result column="interval" jdbcType="FLOAT" property="interval"/>
+        <result column="timeout" jdbcType="FLOAT" property="timeout"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , policyId, policyName, policyState, clusterId, deduplicationServerId, taskTypes,
+    periodTime, listExpress, dataExpress, retryTimes, proxy, `interval`, timeout
+    </sql>
+    <select id="getPolicyById" parameterType="com.example.crawlerserver.entity.Policy" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from policy
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getPolicyByPolicyId" parameterType="com.example.crawlerserver.entity.Policy" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from policy
+        where policyId = #{policyid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deletePolicyById" parameterType="integer">
+        delete
+        from policy
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deletePolicyByPolicyId" parameterType="integer">
+        delete
+        from policy
+        where policyId = #{policyid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="addPolicy" keyColumn="id" keyProperty="id" parameterType="com.example.crawlerserver.entity.Policy"
+            useGeneratedKeys="true">
+        insert into policy (policyId, policyName, policyState,
+                            clusterId, deduplicationServerId, taskTypes,
+                            periodTime, listExpress, dataExpress,
+                            retryTimes, proxy, `interval`,
+                            timeout)
+        values (#{policyid,jdbcType=VARCHAR}, #{policyname,jdbcType=VARCHAR}, #{policystate,jdbcType=TINYINT},
+                #{clusterid,jdbcType=VARCHAR}, #{deduplicationserverid,jdbcType=VARCHAR}, #{tasktypes,jdbcType=VARCHAR},
+                #{periodtime,jdbcType=INTEGER}, #{listexpress,jdbcType=VARCHAR}, #{dataexpress,jdbcType=VARCHAR},
+                #{retrytimes,jdbcType=INTEGER}, #{proxy,jdbcType=TINYINT}, #{interval,jdbcType=FLOAT},
+                #{timeout,jdbcType=FLOAT})
+    </insert>
+    <update id="updatePolicy" parameterType="com.example.crawlerserver.entity.Policy">
+        update policy
+        set policyName            = #{policyname,jdbcType=VARCHAR},
+            policyState           = #{policystate,jdbcType=TINYINT},
+            clusterId             = #{clusterid,jdbcType=VARCHAR},
+            deduplicationServerId = #{deduplicationserverid,jdbcType=VARCHAR},
+            taskTypes             = #{tasktypes,jdbcType=VARCHAR},
+            periodTime            = #{periodtime,jdbcType=INTEGER},
+            listExpress           = #{listexpress,jdbcType=VARCHAR},
+            dataExpress           = #{dataexpress,jdbcType=VARCHAR},
+            retryTimes            = #{retrytimes,jdbcType=INTEGER},
+            proxy                 = #{proxy,jdbcType=TINYINT},
+            `interval`            = #{interval,jdbcType=FLOAT},
+            timeout               = #{timeout,jdbcType=FLOAT}
+        where id = #{id,jdbcType=INTEGER}
+          and policyId = #{policyid,jdbcType=VARCHAR}
+    </update>
+</mapper>

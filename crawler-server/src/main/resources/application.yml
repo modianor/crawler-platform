@@ -4,11 +4,18 @@ spring:
     port: 6379
     database: 0
 
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://127.0.0.1:3306/crawler-platform?serverTimezone=GMT%2B8&charset=utf8mb4&useSSL=false"
+    name: "root"
+    password: "123456"
+
+
   data:
     mongodb:
       host: 127.0.0.1
       port: 27017
-      database: "crawler_platform"
+      database: "crawler-platform"
   kafka:
     bootstrap-servers: 127.0.0.1:9093
     producer:
@@ -18,3 +25,15 @@ spring:
 
 server:
   port: 6048
+
+## MybatisProperties
+#mybatis.mapper-locations=classpath:mapper/*.xml
+#mybatis.type-aliases-package=com.nowcoder.community.entity
+#mybatis.configuration.useGeneratedKeys=true
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.crawlerserver.entity
+  configuration:
+    use-generated-keys: true
+    map-underscore-to-camel-case: true
+#mybatis.configuration.mapUnderscoreToCamelCase=true

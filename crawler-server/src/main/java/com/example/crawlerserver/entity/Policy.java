@@ -2,13 +2,7 @@ package com.example.crawlerserver.entity;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Data;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.FieldType;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
-@Document(collection = "policy")
 @Data
 public class Policy {
 
@@ -24,9 +18,7 @@ public class Policy {
     # 策略对应插件的子线程任务队列上限(默认为1)*/
 
     // 主键ID
-    @MongoId(targetType = FieldType.INT32)
-    @Field("_id")
-    public ObjectId id;
+    public Integer id;
     // 策略ID
     public String policyId;
     // 策略名称
@@ -37,19 +29,14 @@ public class Policy {
     public String clusterId;
     // 消重服务ID
     public String deduplicationServerId;
-    // 任务类型
-    public String[] taskTypes;
+    // 策略支持的任务类型
+    public String taskTypes;
     // 过期时间
     public Integer periodTime = 180;
     // List任务结果抓取表达式
     public String listExpress;
     // Data任务抓取表达式
     public String dataExpress;
-    // 策略对应爬虫端插件子线程数
-    public Integer childThread = 0;
-    // 策略对应爬虫端插件任务队列大小
-    public Integer taskQueueSize = 1;
-
     // 策略任务重次数
     public Integer retryTimes;
     // 是否启用代理
@@ -59,14 +46,23 @@ public class Policy {
     // 策略任务请求超时时间
     public Float timeout;
 
+    /***
+     * 这下面的属性属于主机对爬虫策略的设置
+     * 暂时不放入Policy表中
+
+     // 策略对应爬虫端插件子线程数
+     public Integer childThread = 0;
+     // 策略对应爬虫端插件任务队列大小
+     public Integer taskQueueSize = 1;*/
+
     public Policy() {
     }
 
-    public ObjectId getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -110,11 +106,11 @@ public class Policy {
         this.deduplicationServerId = deduplicationServerId;
     }
 
-    public String[] getTaskTypes() {
+    public String getTaskTypes() {
         return taskTypes;
     }
 
-    public void setTaskTypes(String[] taskTypes) {
+    public void setTaskTypes(String taskTypes) {
         this.taskTypes = taskTypes;
     }
 
@@ -140,22 +136,6 @@ public class Policy {
 
     public void setDataExpress(String dataExpress) {
         this.dataExpress = dataExpress;
-    }
-
-    public Integer getChildThread() {
-        return childThread;
-    }
-
-    public void setChildThread(Integer childThread) {
-        this.childThread = childThread;
-    }
-
-    public Integer getTaskQueueSize() {
-        return taskQueueSize;
-    }
-
-    public void setTaskQueueSize(Integer taskQueueSize) {
-        this.taskQueueSize = taskQueueSize;
     }
 
     public Integer getRetryTimes() {
