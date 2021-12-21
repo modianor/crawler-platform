@@ -14,4 +14,6 @@ public interface IPolicyService {
     void addPolicy(Policy policy);
 
     void updatePolicy(Policy policy);
+
+    void deletePolicyByPolicyId(String policyId);
 }

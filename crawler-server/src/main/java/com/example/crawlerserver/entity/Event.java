@@ -1,25 +1,29 @@
 package com.example.crawlerserver.entity;
 
+import com.alibaba.fastjson.JSONObject;
+import lombok.ToString;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 封装kafka事件类
  */
+@ToString
 public class Event {
 
-    // 主题：评论 点赞 关注 发帖 删帖 分享
+    // 策略ID：policyId
+    private String policyId;
+    // 事件对应任务ID
+    private String taskId;
+    // 主题
     private String topic;
-    // 事件生产者ID
-    private int userId;
-    // 事件类型
-    private int entityType;
-    // 事件ID
-    private int entityId;
-    // 事件消费者ID
-    private int entityUserId;
-    // 事件包含的数据
-    private Map<String, Object> data = new HashMap<>();
+    // 事件类型 List Detail Data
+    private String entityType;
+    // 事件包含的Task
+    private JSONObject task;
+    // 事件包含的data
+    private String data;
 
     public String getTopic() {
         return topic;
@@ -30,49 +34,48 @@ public class Event {
         return this;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public Event setUserId(int userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public int getEntityType() {
+    public String getEntityType() {
         return entityType;
     }
 
-    public Event setEntityType(int entityType) {
+    public Event setEntityType(String entityType) {
         this.entityType = entityType;
         return this;
     }
 
-    public int getEntityId() {
-        return entityId;
+    public JSONObject getTask() {
+        return task;
     }
 
-    public Event setEntityId(int entityId) {
-        this.entityId = entityId;
+    public Event setTask(JSONObject task) {
+        this.task = task;
         return this;
     }
 
-    public int getEntityUserId() {
-        return entityUserId;
+    public String getPolicyId() {
+        return policyId;
     }
 
-    public Event setEntityUserId(int entityUserId) {
-        this.entityUserId = entityUserId;
+    public Event setPolicyId(String policyId) {
+        this.policyId = policyId;
         return this;
     }
 
-    public Map<String, Object> getData() {
+    public String getData() {
         return data;
     }
 
-    public Event setData(String key, Object value) {
-        this.data.put(key, value);
+    public Event setData(String data) {
+        this.data = data;
         return this;
     }
 
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public Event setTaskId(String taskId) {
+        this.taskId = taskId;
+        return this;
+    }
 }

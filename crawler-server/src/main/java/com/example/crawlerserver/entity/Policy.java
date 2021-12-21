@@ -1,9 +1,13 @@
 package com.example.crawlerserver.entity;
 
 import com.alibaba.fastjson.JSON;
+import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
+@Builder
+@ToString
 public class Policy {
 
     /*# 业务配置类
@@ -55,8 +59,8 @@ public class Policy {
      // 策略对应爬虫端插件任务队列大小
      public Integer taskQueueSize = 1;*/
 
-    public Policy() {
-    }
+    /*public Policy() {
+    }*/
 
     public Integer getId() {
         return id;

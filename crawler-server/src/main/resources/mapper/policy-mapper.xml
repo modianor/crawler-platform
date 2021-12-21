@@ -32,7 +32,13 @@
         select
         <include refid="Base_Column_List"/>
         from policy
-        where policyId = #{policyid,jdbcType=VARCHAR}
+        where policyId = #{policyId,jdbcType=VARCHAR}
+    </select>
+    <select id="getAllPolicy" resultType="com.example.crawlerserver.entity.Policy">
+        select
+        <include refid="Base_Column_List"/>
+        from policy
+        limit #{offset}, #{limit}
     </select>
     <delete id="deletePolicyById" parameterType="integer">
         delete
@@ -42,7 +48,7 @@
     <delete id="deletePolicyByPolicyId" parameterType="integer">
         delete
         from policy
-        where policyId = #{policyid,jdbcType=VARCHAR}
+        where policyId = #{policyId,jdbcType=VARCHAR}
     </delete>
     <insert id="addPolicy" keyColumn="id" keyProperty="id" parameterType="com.example.crawlerserver.entity.Policy"
             useGeneratedKeys="true">
@@ -51,27 +57,27 @@
                             periodTime, listExpress, dataExpress,
                             retryTimes, proxy, `interval`,
                             timeout)
-        values (#{policyid,jdbcType=VARCHAR}, #{policyname,jdbcType=VARCHAR}, #{policystate,jdbcType=TINYINT},
-                #{clusterid,jdbcType=VARCHAR}, #{deduplicationserverid,jdbcType=VARCHAR}, #{tasktypes,jdbcType=VARCHAR},
-                #{periodtime,jdbcType=INTEGER}, #{listexpress,jdbcType=VARCHAR}, #{dataexpress,jdbcType=VARCHAR},
-                #{retrytimes,jdbcType=INTEGER}, #{proxy,jdbcType=TINYINT}, #{interval,jdbcType=FLOAT},
+        values (#{policyId,jdbcType=VARCHAR}, #{policyName,jdbcType=VARCHAR}, #{policyState,jdbcType=TINYINT},
+                #{clusterId,jdbcType=VARCHAR}, #{deduplicationServerId,jdbcType=VARCHAR}, #{taskTypes,jdbcType=VARCHAR},
+                #{periodTime,jdbcType=INTEGER}, #{listExpress,jdbcType=VARCHAR}, #{dataExpress,jdbcType=VARCHAR},
+                #{retryTimes,jdbcType=INTEGER}, #{proxy,jdbcType=TINYINT}, #{interval,jdbcType=FLOAT},
                 #{timeout,jdbcType=FLOAT})
     </insert>
     <update id="updatePolicy" parameterType="com.example.crawlerserver.entity.Policy">
         update policy
-        set policyName            = #{policyname,jdbcType=VARCHAR},
-            policyState           = #{policystate,jdbcType=TINYINT},
-            clusterId             = #{clusterid,jdbcType=VARCHAR},
-            deduplicationServerId = #{deduplicationserverid,jdbcType=VARCHAR},
-            taskTypes             = #{tasktypes,jdbcType=VARCHAR},
-            periodTime            = #{periodtime,jdbcType=INTEGER},
-            listExpress           = #{listexpress,jdbcType=VARCHAR},
-            dataExpress           = #{dataexpress,jdbcType=VARCHAR},
-            retryTimes            = #{retrytimes,jdbcType=INTEGER},
+        set policyName            = #{policyName,jdbcType=VARCHAR},
+            policyState           = #{policyState,jdbcType=TINYINT},
+            clusterId             = #{clusterId,jdbcType=VARCHAR},
+            deduplicationServerId = #{deduplicationServerId,jdbcType=VARCHAR},
+            taskTypes             = #{taskTypes,jdbcType=VARCHAR},
+            periodTime            = #{periodTime,jdbcType=INTEGER},
+            listExpress           = #{listExpress,jdbcType=VARCHAR},
+            dataExpress           = #{dataExpress,jdbcType=VARCHAR},
+            retryTimes            = #{retryTimes,jdbcType=INTEGER},
             proxy                 = #{proxy,jdbcType=TINYINT},
             `interval`            = #{interval,jdbcType=FLOAT},
             timeout               = #{timeout,jdbcType=FLOAT}
         where id = #{id,jdbcType=INTEGER}
-          and policyId = #{policyid,jdbcType=VARCHAR}
+          and policyId = #{policyId,jdbcType=VARCHAR}
     </update>
 </mapper>

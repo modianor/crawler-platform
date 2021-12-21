@@ -22,5 +22,5 @@ public interface IPolicyDao {
 
     Policy getPolicyByPolicyId(String policyId);
 
-//    List<Policy> getPolicies();
+    List<Policy> getAllPolicy(int offset, int limit);
 }

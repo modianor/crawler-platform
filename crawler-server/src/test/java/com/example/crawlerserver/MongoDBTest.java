@@ -14,9 +14,9 @@ class MongoDBTest {
 
     @Test
     void insertPolicy() {
-        Policy policy = new Policy();
+        /*Policy policy = new Policy();
         policy.setPolicyId("HEIMAOTOUSU");
-        iPolicyService.addPolicy(policy);
+        iPolicyService.addPolicy(policy);*/
     }
 
 }

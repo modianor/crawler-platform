@@ -1,12 +1,9 @@
 package com.example.crawlerserver.service.serviceImp;
 
+import com.example.crawlerserver.dao.IPolicyDao;
 import com.example.crawlerserver.entity.Policy;
 import com.example.crawlerserver.service.IPolicyService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,34 +13,41 @@ import java.util.List;
 @Service
 public class PolicyService implements IPolicyService {
     @Resource
-    private MongoTemplate mongoTemplate;
+    private IPolicyDao iPolicyDao;
 
     @Override
     public List<Policy> getPolicys() {
-        return null;
+        return iPolicyDao.getAllPolicy(0, 10);
     }
 
     @Override
     public Policy getPolicyByPolicyId(String policyId) {
-        return null;
+        return iPolicyDao.getPolicyByPolicyId(policyId);
     }
 
     @Override
     public Policy getPolicById(Integer id) {
-        return null;
+        return iPolicyDao.getPolicyById(id);
     }
 
     @Override
     public void addPolicy(Policy policy) {
-        mongoTemplate.save(policy);
+        Policy p = this.getPolicyByPolicyId(policy.getPolicyId());
+        if (p == null) {
+            iPolicyDao.addPolicy(policy);
+        }
     }
 
     @Override
     public void updatePolicy(Policy policy) {
-        Query query = new Query(Criteria.where("id").is(policy.id));
+        Policy p = this.getPolicyByPolicyId(policy.getPolicyId());
+        if (p != null) {
+            iPolicyDao.updatePolicy(policy);
+        }
+    }
 
-        Update update = new Update();
-        update.set("policyName", policy.policyName);
-        mongoTemplate.updateFirst(query, update, Policy.class);
+    @Override
+    public void deletePolicyByPolicyId(String policyId) {
+        iPolicyDao.deletePolicyByPolicyId(policyId);
     }
 }

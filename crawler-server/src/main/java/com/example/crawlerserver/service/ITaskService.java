@@ -7,8 +7,6 @@ import com.example.crawlerserver.entity.Task;
 import java.util.List;
 
 public interface ITaskService {
-    void push_task(Task task);
-
     Task pop_task(String spiderName);
 
     void pushTasks(List<JSONObject> tasks);

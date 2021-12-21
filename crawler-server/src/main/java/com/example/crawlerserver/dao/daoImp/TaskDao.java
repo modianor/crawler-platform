@@ -16,20 +16,6 @@ public class TaskDao implements ITaskDao {
     private RedisTemplate<String, Object> redisTemplate;
 
     @Override
-    public void push_task(Task task) {
-        String spiderName = task.spider_name;
-        String task_type = task.task_type;
-        int score = 1;
-        if ("Detail".equals(task_type)) {
-            score = 10;
-        }
-        String taskKey = spiderName + ":" + "requests";
-        log.info("push task: " + task);
-        redisTemplate.opsForList().leftPush(taskKey, task);
-        //redisTemplate.opsForZSet().add(taskKey, task, score);
-    }
-
-    @Override
     public Task pop_task(String spiderName) {
         String taskKey = spiderName + ":" + "requests";
         Task task = (Task) redisTemplate.opsForList().leftPop(taskKey);

@@ -3,7 +3,10 @@ package com.example.crawlerserver.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.crawlerserver.entity.Event;
 import com.example.crawlerserver.entity.Task;
+import com.example.crawlerserver.event.EventConsumer;
+import com.example.crawlerserver.event.EventProducer;
 import com.example.crawlerserver.service.ITaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,19 +30,38 @@ public class TaskController {
     @Autowired
     private ITaskService iTaskService;
 
-    @RequestMapping(path = "/upload", method = RequestMethod.POST)
-    @ResponseBody
-    public String uploadTask(Task task) {
-        iTaskService.push_task(task);
-        return task.toString();
-    }
+    @Autowired
+    private EventProducer eventProducer;
 
     @RequestMapping(path = "/uploadTaskParams", method = RequestMethod.POST)
     @ResponseBody
     public String uploadTask(String task, String result) {
         JSONObject taskObj = JSON.parseObject(task);
         List<JSONObject> childTasks = getTasksFromString(result);
-        iTaskService.pushTasks(childTasks);
+        for (JSONObject childTask : childTasks) {
+            Event event = new Event()
+                    .setPolicyId(taskObj.getString("policyId"))
+                    .setTaskId(taskObj.getString("taskId"))
+                    .setEntityType("List")
+                    .setTopic("TP_BDG_AD_Task_List")
+                    .setTask(childTask);
+            eventProducer.fireEvent(event);
+        }
+        return "{\"status\":\"ok\"}";
+    }
+
+    @RequestMapping(path = "/uploadTaskData", method = RequestMethod.POST)
+    @ResponseBody
+    public String uploadTaskData(String task, String data) {
+        JSONObject taskObj = JSON.parseObject(task);
+        Event event = new Event()
+                .setPolicyId(taskObj.getString("policyId"))
+                .setTaskId(taskObj.getString("taskId"))
+                .setEntityType("Detail")
+                .setTopic("TP_BDG_AD_HEIMAOTOUSU_ORISTRUCT")
+                .setTask(taskObj)
+                .setData(data);
+        eventProducer.fireEvent(event);
         return "{\"status\":\"ok\"}";
     }
 
